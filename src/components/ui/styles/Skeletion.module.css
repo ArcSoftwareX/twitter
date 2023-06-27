@@ -1,0 +1,17 @@
+.skeleton {
+    background-color: rgb(70, 70, 70);
+    animation: skeleton 4s infinite ease;
+}
+
+
+@keyframes skeleton {
+    0% {
+        opacity: 0
+    }
+    50% {
+        opacity: 100
+    }
+    100% {
+        opacity: 0
+    }
+}

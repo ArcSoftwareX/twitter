@@ -8,7 +8,7 @@ export const buttonVariants = cva('outline-none rounded-full transition-all flex
             primary: 'bg-blue-500 hover:bg-blue-600 font-medium',
             secondary: 'bg-neutral-900 hover:bg-neutral-800 font-medium',
             tertiary: 'bg-transparent text-blue-500 hover:text-blue-600',
-            ghost: 'bg-transparent hover:bg-neutral-800'
+            ghost: 'bg-transparent hover:bg-neutral-800 justify-start'
         },
         size: {
             xs: 'py-1.5 px-2 text-sm',

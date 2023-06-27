@@ -3,8 +3,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import RightSidebar from '@/components/RightSidebar'
-// import ModalxProvider from '@/lib/modalx/ModalRenderer'
-// import { modals } from '@/lib/modals'
+import ClientSideProviders from '@/components/ClientSideProviders'
 
 const inter = Inter({ subsets: ['latin'], variable: "--font" })
 
@@ -27,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${icons.variable} font-sans bg-neutral-950 text-white flex items-stretch antialiased`}>
-        {/* <ModalxProvider modals={modals}> */}
+        <ClientSideProviders>
           <Sidebar />
           {children}
           <RightSidebar />
-        {/* </ModalxProvider> */}
+        </ClientSideProviders>
       </body>
     </html>
   )

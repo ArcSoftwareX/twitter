@@ -9,7 +9,7 @@ import AuthCard from "./AuthCard";
 export default async function RightSidebar() {
     const session = await getServerSession(authOptions)
 
-    return <div className="max-w-md w-full h-full p-8">
+    return <div className="xl:max-w-md max-w-[40%] w-full h-full p-8">
         <Input placeholder="Search Twitter" className="w-full" icon="search" />
         { session ?
         <Card className="mt-10">
