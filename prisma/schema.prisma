@@ -3,10 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("POSTGRES_PRISMA_URL")
-  directUrl         = env("POSTGRES_URL_NON_POOLING")
-  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl         = env("POSTGRES_URL_NON_POOLING")
+  // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 // TWEETS
@@ -15,11 +15,13 @@ model Tweet {
   id String @id @default(cuid())
 
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation("Author", fields: [userId], references: [id], onDelete: Cascade)
 
   text   String   @db.VarChar(280)
   images String[] @db.Text
   links  String[] @db.Text
+
+  likedBy User[]
 
   parentTweetId String?
   parentTweet   Tweet?  @relation("TweetToTweet", fields: [parentTweetId], references: [id], onDelete: Cascade)
@@ -61,13 +63,22 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
+  username      String    @unique @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Twits         Tweet[]
+  Tweets        Tweet[]   @relation("Author")
+  followers     User[]    @relation("UserFollows")
+  following     User[]    @relation("UserFollows")
+
+  bio String?
+
+  createdAt DateTime @default(now())
+
+  likedTweets Tweet[]
 }
 
 model VerificationToken {

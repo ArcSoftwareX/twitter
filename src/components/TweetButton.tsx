@@ -11,17 +11,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 const createTweet = async (tweetText: string) => {
     const text = tweetText.trim()
 
-    if (!text.length) return
+    if (!text.length) throw new Error("Tweet should not be empty")
 
-    const response = await fetch('/api/tweets/new', {
+    if (text.length > 280) throw new Error(`Tweet is too long (${text.length} chars)`)
+
+    await fetch('/api/tweets/new', {
         method: 'POST',
         body: JSON.stringify({
             text
         })
     })
-    const res = await response.json()
 
-    console.log(res);
+    return true
 }
 
 export default function TweetButton({ user }: { user: User }) {
@@ -42,16 +43,16 @@ export default function TweetButton({ user }: { user: User }) {
             toast.success('Created tweet')
             currentLoaderId.current = null
             queryClient.invalidateQueries(['tweets'])
+            setModalOpened(false)
         },
-        onError: () => {
+        onError: (e: Error) => {
             toast.dismiss(currentLoaderId.current ?? '')
-            toast.error('Failed to create tweet')
+            toast.error(e.message)
             currentLoaderId.current = null
         }
     })
 
     const tweetHandler = () => {
-        setModalOpened(false)
         tweetMutation.mutateAsync()
     }
 
@@ -61,6 +62,6 @@ export default function TweetButton({ user }: { user: User }) {
             <Icon className="block xl:hidden scale-150">stylus_note</Icon>
         </Button>
 
-        <TweetModal open={modalOpened} text={tweetText} updateText={(text: string) => setTweetText(text)} user={user} close={() => setModalOpened(false)} tweet={tweetHandler} />
+        { modalOpened ? <TweetModal text={tweetText} updateText={(text: string) => setTweetText(text)} user={user} close={() => setModalOpened(false)} tweet={tweetHandler} /> : null }
     </>
 }

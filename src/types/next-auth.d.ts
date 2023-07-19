@@ -2,13 +2,16 @@ import NextAuth from "next-auth"
 
 declare module "next-auth" {
   /**
-   * Returned by `useServerSession`
+   * Returned by `getServerSession`
    */
   interface Session {
     user: {
-      id: string
+      id: string,
+      username: string,
+      bio?: string,
+      createdAt: Date
     }
   }
 }
 
-export {}
+// export {}

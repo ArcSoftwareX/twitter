@@ -1,8 +1,16 @@
 import Image from "next/image";
 import { Icon } from "./Icon";
+import { HTMLAttributes, forwardRef } from "react";
+import cn from "@/utils/cn";
 
-export default function Avatar({ src, alt }: { src: string | null | undefined, alt: string }) {
-  return <div className="min-w-[40px] min-h-[40px] max-w-[40px] max-h-[40px] rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
-    { src ? <Image src={src} alt={alt} height={40} width={40} /> : <Icon className="text-2xl font-light text-gray-400">person</Icon> }
-  </div>
+interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
+  src: string | null | undefined,
+  alt: string,
+  size?: number
 }
+
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar({ src, style, size, alt, className, ...props }, ref) {
+  return <div {...props} ref={ref} style={{ ...style, minHeight: size ?? 40, minWidth: size ?? 40, maxHeight: size ?? 40, maxWidth: size ?? 40 }} className={cn("rounded-full overflow-hidden bg-white/10 flex items-center justify-center", className)}>
+    { src ? <Image src={src} alt={alt} height={size ?? 40} width={size ?? 40} /> : <Icon className="text-2xl font-light text-gray-400">person</Icon> }
+  </div>
+})

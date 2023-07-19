@@ -3,11 +3,11 @@ import { Modal } from "./ui/Modal"
 import { Icon } from "./ui/Icon"
 import { Dropdown } from "./ui/Dropdown"
 import { Parahraph } from "./ui/Paragraph"
-import Avatar from "./ui/Avatar"
+import { Avatar } from "./ui/Avatar"
 import { type User } from "next-auth"
 import { useEffect, useRef } from "react"
 
-export default function TweetModal({ close, user, tweet, updateText, text, open }: { close: () => void, user: User, tweet: () => void, updateText: (to: string) => void, text: string, open: boolean }) {
+export default function TweetModal({ close, user, tweet, updateText, text }: { close: () => void, user: User, tweet: () => void, updateText: (to: string) => void, text: string }) {
     const inputRef = useRef<HTMLTextAreaElement>(null)
 
     const autoresize = (element: HTMLElement) => {
@@ -27,7 +27,7 @@ export default function TweetModal({ close, user, tweet, updateText, text, open 
         autoresize(inputRef.current)
     }, [text])
     
-    return <Modal open={open}>
+    return <Modal close={close}>
         <div className="w-full absolute top-0 inset-x-0 p-1.5 flex justify-between">
             <button onClick={close} className="w-9 h-9 rounded-full hover:bg-white/10 text-lg flex items-center justify-center transition-colors">
                 <Icon className="font-light text-xl">close</Icon>
